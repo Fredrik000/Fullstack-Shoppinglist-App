@@ -1,0 +1,39 @@
+.navbar-expand {
+  padding: 1rem;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+.card {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  min-height: 70vh;
+  padding: 0.5rem 10rem;
+}
+
+.cart-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  padding: 0.5rem 1rem;
+  color: #212529;
+  font-size: 24px;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  list-style-type: none;
+}
+
+.app {
+  height: 100vh;
+  background-color: #444;
+}
+/*# sourceMappingURL=main.css.map */
