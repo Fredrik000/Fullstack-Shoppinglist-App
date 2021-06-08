@@ -5,7 +5,7 @@ import { ListGroup } from 'react-bootstrap';
 
 function Cart(props) {
   return (
-    <ListGroup as='ul'>
+    <ListGroup as='ul' style={{ minHeight: '83.5vh' }}>
       {props.shoppingcart.map((item) => (
         <CartItem
           key={item.id}
