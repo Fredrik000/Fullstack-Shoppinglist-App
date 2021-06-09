@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ListGroup } from 'react-bootstrap';
 
-function ListItem(props) {
+function Item(props) {
   const [checked, setChecked] = useState(false);
 
   const checkboxHandler = () => {
@@ -36,11 +36,11 @@ function ListItem(props) {
         </label>
         <i
           className='far fa-trash-alt'
-          onClick={() => props.removeItem(props.id)}
+          onClick={() => props.removeItemHandler(props.id)}
         ></i>
       </ListGroup.Item>
     </>
   );
 }
 
-export default ListItem;
+export default Item;

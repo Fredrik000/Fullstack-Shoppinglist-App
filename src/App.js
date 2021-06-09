@@ -1,43 +1,38 @@
-import React, { useState } from 'react';
-import List from 'Components/List';
+import React, { useState, useEffect } from 'react';
+import useHttp from 'hooks/useHttp';
+import ItemList from 'Components/ItemList';
+import NewItem from 'Components/NewItem';
 
-import {
-  Container,
-  Navbar,
-  Card,
-  InputGroup,
-  FormControl,
-  Button,
-} from 'react-bootstrap';
+import { Container, Navbar, Card } from 'react-bootstrap';
 
 function App() {
-  const [enteredItem, setEnteredItem] = useState('');
   const [shoppinglist, setShoppinglist] = useState([]);
 
-  const itemChangeHandler = (e) => {
-    setEnteredItem(e.target.value);
-  };
+  // Get shoppinglist from Firebase
+  const { isLoading, error, sendRequest: fetchShoppinglist } = useHttp();
 
-  const randomId = () => {
-    return Math.floor(Math.random() * 100000);
-  };
+  useEffect(() => {
+    // Transform data, recieved from Firebase
+    const transformShoppinglist = (responseData) => {
+      const loadedItems = [];
 
-  const addItemHandler = (e) => {
-    e.preventDefault();
+      for (const key in responseData) {
+        loadedItems.push({
+          id: key,
+          name: responseData[key].name,
+        });
+      }
 
-    let item = {
-      id: randomId(),
-      name: enteredItem,
+      setShoppinglist(loadedItems);
     };
 
-    setShoppinglist([...shoppinglist, item]);
-
-    setEnteredItem('');
-  };
-
-  const removeItemHandler = (id) => {
-    setShoppinglist(shoppinglist.filter((item) => item.id !== id));
-  };
+    fetchShoppinglist(
+      {
+        url: 'https://shoppinglist-698ac-default-rtdb.europe-west1.firebasedatabase.app/shoppinglist.json',
+      },
+      transformShoppinglist
+    );
+  }, [fetchShoppinglist]);
 
   return (
     <Container className='d-flex flex-column min-vh-100 p-0' fluid>
@@ -54,23 +49,14 @@ function App() {
         as='main'
         className='justify-content-between flex-grow-1 p-1 border-0 rounded-0'
       >
-        <List shoppinglist={shoppinglist} removeItem={removeItemHandler} />
-        <InputGroup size='lg' as='form' onSubmit={addItemHandler}>
-          <FormControl
-            placeholder='Add item'
-            value={enteredItem}
-            onChange={itemChangeHandler}
-          />
-          <Button type='submit'>Add</Button>
-        </InputGroup>
+        <ItemList
+          shoppinglist={shoppinglist}
+          setShoppinglist={setShoppinglist}
+        />
+        <NewItem setShoppinglist={setShoppinglist} />
       </Card>
     </Container>
   );
 }
 
 export default App;
-/*
-
-
-
-*/
