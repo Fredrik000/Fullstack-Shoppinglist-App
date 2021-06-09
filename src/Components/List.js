@@ -1,13 +1,13 @@
 import React from 'react';
-import CartItem from 'Components/CartItem';
+import ListItem from 'Components/ListItem';
 
 import { ListGroup } from 'react-bootstrap';
 
-function Cart(props) {
+function List(props) {
   return (
-    <ListGroup as='ul' style={{ minHeight: '83.5vh' }}>
-      {props.shoppingcart.map((item) => (
-        <CartItem
+    <ListGroup as='ul'>
+      {props.shoppinglist.map((item) => (
+        <ListItem
           key={item.id}
           name={item.name}
           id={item.id}
@@ -18,4 +18,4 @@ function Cart(props) {
   );
 }
 
-export default Cart;
+export default List;
