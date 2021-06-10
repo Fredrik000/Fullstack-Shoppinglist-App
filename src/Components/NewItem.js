@@ -11,12 +11,12 @@ function NewItem(props) {
     setEnteredItemName(e.target.value);
   };
 
-  // Item gets new id in backend
+  // Temporary id. Item gets new id in backend
   const randomId = () => {
-    return Math.floor(Math.random() * 100000);
+    return Math.floor(Math.random() * 10000000);
   };
 
-  // Add item to list
+  // POST item to list
   const addItemHandler = async (e) => {
     e.preventDefault();
 

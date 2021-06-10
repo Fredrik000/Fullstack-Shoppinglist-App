@@ -11,6 +11,7 @@ function App() {
   // Get shoppinglist from Firebase
   const { isLoading, error, sendRequest: fetchShoppinglist } = useHttp();
 
+  // GET data on page load
   useEffect(() => {
     // Transform data, recieved from Firebase
     const transformShoppinglist = (responseData) => {

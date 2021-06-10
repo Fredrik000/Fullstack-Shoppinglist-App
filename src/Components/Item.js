@@ -5,14 +5,6 @@ import { ListGroup } from 'react-bootstrap';
 function Item(props) {
   const [checked, setChecked] = useState(false);
 
-  const checkboxHandler = () => {
-    if (!checked) {
-      setChecked(true);
-    } else {
-      setChecked(false);
-    }
-  };
-
   let labelClass = `form-check-label ${
     !checked ? '' : 'text-decoration-line-through text-muted'
   }`;
@@ -29,7 +21,7 @@ function Item(props) {
           className='form-check-input'
           type='checkbox'
           id='cb'
-          onChange={checkboxHandler}
+          onChange={(e) => setChecked(e.target.checked)}
         ></input>
         <label className={labelClass} htmlFor='cb'>
           {props.name}
