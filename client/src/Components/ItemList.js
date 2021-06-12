@@ -12,7 +12,7 @@ function ItemList(props) {
     props.setShoppinglist(props.shoppinglist.filter((item) => item.id !== id));
 
     deleteItemRequest({
-      url: `https://shoppinglist-698ac-default-rtdb.europe-west1.firebasedatabase.app/shoppinglist/${id}.json`,
+      url: `http://localhost:5001/api/items/${id}`,
       method: 'DELETE',
     });
   };

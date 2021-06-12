@@ -30,7 +30,7 @@ function NewItem(props) {
     });
 
     sendItemRequest({
-      url: 'https://shoppinglist-698ac-default-rtdb.europe-west1.firebasedatabase.app/shoppinglist.json',
+      url: 'http://localhost:5001/api/items',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: { name: item.name },
@@ -46,7 +46,9 @@ function NewItem(props) {
         value={enteredItemName}
         onChange={itemChangeHandler}
       />
-      <Button type='submit'>Add</Button>
+      <Button className='text-light' type='submit'>
+        Add
+      </Button>
     </InputGroup>
   );
 }

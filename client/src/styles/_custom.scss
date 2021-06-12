@@ -1,0 +1,12 @@
+// scss-docs-start color-variables
+$blue: #0d6efd;
+$teal: #20c997;
+$cyan: #0dcaf0;
+// scss-docs-end color-variables
+
+// scss-docs-start theme-color-variables
+$primary: $teal;
+// scss-docs-end theme-color-variables
+
+// Import Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
