@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import useHttp from 'hooks/useHttp';
 
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { InputGroup, Form, FormControl, Button } from 'react-bootstrap';
 
 function NewItem(props) {
   const [enteredItemName, setEnteredItemName] = useState('');
-  const { isLoading, error, sendRequest: sendItemRequest } = useHttp();
+  const [validated, setValidated] = useState(false);
+  const { sendRequest: sendItemRequest } = useHttp();
 
   const itemChangeHandler = (e) => {
     setEnteredItemName(e.target.value);
@@ -18,7 +19,13 @@ function NewItem(props) {
 
   // POST item to list
   const addItemHandler = async (e) => {
-    e.preventDefault();
+    // Validation
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setValidated(true);
 
     const item = {
       id: randomId(),
@@ -35,21 +42,21 @@ function NewItem(props) {
       headers: { 'Content-Type': 'application/json' },
       body: { name: item.name },
     });
-
-    setEnteredItemName('');
   };
 
   return (
-    <InputGroup size='lg' as='form' onSubmit={addItemHandler}>
-      <FormControl
-        placeholder='Add item'
-        value={enteredItemName}
-        onChange={itemChangeHandler}
-      />
-      <Button className='text-light' type='submit'>
-        Add
-      </Button>
-    </InputGroup>
+    <Form onSubmit={addItemHandler} validated={validated} noValidate>
+      <InputGroup size='lg'>
+        <FormControl
+          placeholder='Add item'
+          onChange={itemChangeHandler}
+          required
+        />
+        <Button className='text-light' type='submit'>
+          Add
+        </Button>
+      </InputGroup>
+    </Form>
   );
 }
 

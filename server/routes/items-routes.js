@@ -11,6 +11,10 @@ let DUMMY_ITEMS = [];
 // @desc     Get items
 // @access   Public
 router.get('/', (req, res) => {
+  if (!DUMMY_ITEMS.length === 0) {
+    throw new HttpError('Could not find any items', 404);
+  }
+
   res.status(200).json({ items: DUMMY_ITEMS });
 });
 
@@ -19,12 +23,18 @@ router.get('/', (req, res) => {
 // @access   Public
 router.post('/', (req, res) => {
   const name = req.body.name;
+
+  if (!name || name.trim().length === 0) {
+    throw new HttpError('Invalid input! Please enter a valid item');
+  }
+
   const createdItem = {
     id: uuid(),
     name,
   };
+
   DUMMY_ITEMS.push(createdItem);
-  res.status(201).json({ item: createdItem });
+  res.status(201).json({ message: 'Created new item.', item: createdItem });
 });
 
 // @route    DELETE api/items/:id

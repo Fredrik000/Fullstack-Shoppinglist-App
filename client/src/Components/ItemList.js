@@ -5,7 +5,7 @@ import Item from 'Components/Item';
 import { ListGroup } from 'react-bootstrap';
 
 function ItemList(props) {
-  const { isLoading, error, sendRequest: deleteItemRequest } = useHttp();
+  const { sendRequest: deleteItemRequest } = useHttp();
 
   // DELETE item from list
   const removeItemHandler = async (id) => {

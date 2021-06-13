@@ -3,30 +3,29 @@ import useHttp from 'hooks/useHttp';
 import ItemList from 'Components/ItemList';
 import NewItem from 'Components/NewItem';
 
-import { Container, Navbar, Card, Alert } from 'react-bootstrap';
+import { Container, Navbar, Card, Spinner } from 'react-bootstrap';
 
 function App() {
   const [shoppinglist, setShoppinglist] = useState([]);
 
   // Get shoppinglist from Backend
-  const { isLoading, error, sendRequest: fetchShoppinglist } = useHttp();
+  const { isLoading, sendRequest: fetchShoppinglist } = useHttp();
 
-  // GET data on page load
   useEffect(() => {
     // Transform data, recieved from Backend
     const transformShoppinglist = (responseData) => {
       const loadedItems = [];
 
-      for (const key in responseData) {
+      for (const key in responseData.items) {
         loadedItems.push({
-          id: key,
-          name: responseData[key].name,
+          id: responseData.items[key].id,
+          name: responseData.items[key].name,
         });
       }
-
       setShoppinglist(loadedItems);
     };
 
+    // GET data on page load
     fetchShoppinglist(
       {
         url: 'http://localhost:5001/api/items',
@@ -55,16 +54,14 @@ function App() {
           className='justify-content-between flex-grow-1 p-1 border-0 rounded-0'
         >
           {isLoading && (
-            <Alert className='d-flex justify-content-center' variant='primary'>
-              <Alert.Heading>Loading...</Alert.Heading>
-            </Alert>
+            <div className='d-flex justify-content-center'>
+              <Spinner variant='primary' animation='border' role='status'>
+                <span className='visually-hidden'>Loading...</span>
+              </Spinner>
+            </div>
           )}
-          {error && (
-            <Alert className='d-flex justify-content-center' variant='danger'>
-              <Alert.Heading>{error}</Alert.Heading>
-            </Alert>
-          )}
-          {!isLoading && !error && (
+
+          {!isLoading && (
             <ItemList
               shoppinglist={shoppinglist}
               setShoppinglist={setShoppinglist}
