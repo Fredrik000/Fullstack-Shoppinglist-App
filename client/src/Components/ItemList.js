@@ -12,7 +12,7 @@ function ItemList(props) {
     props.setShoppinglist(props.shoppinglist.filter((item) => item.id !== id));
 
     deleteItemRequest({
-      url: `http://localhost:5001/api/items/${id}`,
+      url: `http://localhost:5000/api/items/${id}`,
       method: 'DELETE',
     });
   };
