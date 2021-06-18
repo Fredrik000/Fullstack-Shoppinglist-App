@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 
 // Define Routes
 app.use('/api/items', require('./routes/items-routes'));
+app.post('/api/login', require('./routes/login-routes'));
 
 // Will execute if no routes where found
 app.use((req, res, next) => {

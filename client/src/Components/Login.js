@@ -1,12 +1,32 @@
 import React from 'react';
-import GoogleLogin from 'react-google-login';
+import { useHistory } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
+import GoogleLogin from 'react-google-login';
+import useHttp from 'hooks/useHttp';
 
 function Login(props) {
-  const responseGoogle = (response) => {
-    console.log(response);
+  const history = useHistory();
+  const { sendRequest: authUser } = useHttp();
+
+  const googleSuccess = async (res) => {
+    console.log(res);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    if (token) {
+      localStorage.setItem('token', JSON.stringify({ token }));
+    }
+
+    console.log(`Signed in as ${result.givenName}`);
     props.onLogin(true);
+    history.replace('/');
   };
+
+  const googleFailure = (error) => {
+    console.log(error);
+    console.log('Google Sign In was unsuccessful. Try again.');
+  };
+
   return (
     <Card className='align-items-center p-3 border-0 rounded-0'>
       <Card.Title>Please Login</Card.Title>
@@ -18,12 +38,12 @@ function Login(props) {
             disabled={renderProps.disabled}
             variant='danger'
           >
-            Sign in with Google
+            Google Sign in
           </Button>
         )}
         buttonText='Login'
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
+        onSuccess={googleSuccess}
+        onFailure={googleFailure}
         cookiePolicy={'single_host_origin'}
       />
     </Card>
