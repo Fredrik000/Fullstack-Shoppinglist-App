@@ -1,6 +1,9 @@
 const express = require('express');
+const dotenv = require('dotenv');
 
 const HttpError = require('./models/http-error');
+
+dotenv.config();
 
 const app = express();
 
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 
 // Define Routes
 app.use('/api/items', require('./routes/items-routes'));
-app.post('/api/login', require('./routes/login-routes'));
+app.use('/api/user', require('./routes/user-routes'));
 
 // Will execute if no routes where found
 app.use((req, res, next) => {

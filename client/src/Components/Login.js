@@ -6,7 +6,7 @@ import useHttp from 'hooks/useHttp';
 
 function Login(props) {
   const history = useHistory();
-  const { sendRequest: authUser } = useHttp();
+  const { sendRequest: sendLoggedInUser } = useHttp();
 
   const googleSuccess = async (res) => {
     console.log(res);
@@ -17,8 +17,21 @@ function Login(props) {
       localStorage.setItem('token', JSON.stringify({ token }));
     }
 
-    console.log(`Signed in as ${result.givenName}`);
+    let user = {
+      name: result.givenName,
+      email: result.email,
+    };
+
+    sendLoggedInUser({
+      url: 'http://localhost:5000/api/user',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: { user },
+    });
+
+    props.setUser(user);
     props.onLogin(true);
+    props.onWelcome(true);
     history.replace('/');
   };
 

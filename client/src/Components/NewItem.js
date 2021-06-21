@@ -29,6 +29,7 @@ function NewItem(props) {
 
     const item = {
       id: randomId(),
+      owner: props.user.email,
       name: enteredItemName,
     };
 

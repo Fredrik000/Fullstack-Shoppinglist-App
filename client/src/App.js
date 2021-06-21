@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
-import { Container, Card, Spinner } from 'react-bootstrap';
+import { Container, Card, Spinner, Alert } from 'react-bootstrap';
 import useHttp from 'hooks/useHttp';
 import ItemList from 'Components/ItemList';
 import NewItem from 'Components/NewItem';
@@ -11,6 +11,8 @@ function App() {
   const history = useHistory();
   const [shoppinglist, setShoppinglist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [welcome, setWelcome] = useState(false);
+  const [user, setUser] = useState({});
 
   // Get shoppinglist from Backend
   const { isLoading, sendRequest: fetchShoppinglist } = useHttp();
@@ -59,7 +61,11 @@ function App() {
           )}
           {!isLoggedIn && (
             <Route path='/login' exact>
-              <Login onLogin={setIsLoggedIn} />
+              <Login
+                onLogin={setIsLoggedIn}
+                onWelcome={setWelcome}
+                setUser={setUser}
+              />
             </Route>
           )}
           {isLoggedIn && (
@@ -76,13 +82,24 @@ function App() {
                   </div>
                 )}
 
+                {welcome && (
+                  <Alert
+                    className='d-flex flex-row-reverse justify-content-center'
+                    variant='success'
+                    onClose={() => setWelcome(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>Welcome! {user.name}</Alert.Heading>
+                  </Alert>
+                )}
+
                 {!isLoading && (
                   <ItemList
                     shoppinglist={shoppinglist}
                     setShoppinglist={setShoppinglist}
                   />
                 )}
-                <NewItem setShoppinglist={setShoppinglist} />
+                <NewItem setShoppinglist={setShoppinglist} user={user} />
               </Card>
             </Route>
           )}
