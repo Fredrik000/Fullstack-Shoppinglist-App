@@ -1,30 +1,18 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const cors = require('cors');
+import dotenv from 'dotenv';
 
 const HttpError = require('./models/http-error');
 
 dotenv.config();
 
 const app = express();
+app.use(cors());
 
 // Connect Database
 
 // Init Middleware - app.use()
 app.use(express.json());
-
-// CORS Headers => Required for cross-origin/ cross-server communication
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, OPTIONS'
-  );
-  next();
-});
 
 // Define Routes
 app.use('/api/items', require('./routes/items-routes'));
